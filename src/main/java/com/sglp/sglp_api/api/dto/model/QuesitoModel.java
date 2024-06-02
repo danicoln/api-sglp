@@ -9,7 +9,7 @@ import lombok.Setter;
 public class QuesitoModel {
 
     private String id;
-    private Parte parte;
-    private String quesito;
+    private String parte;
+    private String pergunta;
     private String resposta;
 }
