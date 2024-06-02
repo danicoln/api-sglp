@@ -11,6 +11,8 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -40,6 +42,6 @@ public class LaudoPericial {
     @DBRef
     private ExameDaMateria exameDaMateria;
 
-    //private List<Quesito> quesitos;
-    //private List<ObjetoLaudo> objetos;
+    @DBRef
+    private List<Quesito> quesitos = new ArrayList<>();
 }

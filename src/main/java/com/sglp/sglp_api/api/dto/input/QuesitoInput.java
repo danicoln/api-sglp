@@ -8,7 +8,8 @@ import lombok.Setter;
 @Setter
 public class QuesitoInput {
 
-    private Parte parte;
-    private String quesito;
+    private String id;
+    private String parte;
+    private String pergunta;
     private String resposta;
 }
