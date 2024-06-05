@@ -12,4 +12,5 @@ public class QuesitoInput {
     private String parte;
     private String pergunta;
     private String resposta;
+    private String laudoId;
 }

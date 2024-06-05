@@ -1,7 +1,6 @@
 package com.sglp.sglp_api.domain.service;
 
 import com.sglp.sglp_api.domain.exception.QuesitoNaoEncontradoException;
-import com.sglp.sglp_api.domain.model.LaudoPericial;
 import com.sglp.sglp_api.domain.model.Quesito;
 import com.sglp.sglp_api.domain.repository.QuesitoRepository;
 import lombok.AllArgsConstructor;
@@ -18,12 +17,9 @@ public class QuesitoService {
     public static final String QUESITO_NAO_ENCONTRADO = "Quesito não encontrado no laudo de ID %s";
 
     private final QuesitoRepository quesitoRepository;
-    private final LaudoPericialService laudoPericialService;
-    private final QuesitoTransactionalService transactionalService;
 
     public List<Quesito> listar(String laudoId) {
-        LaudoPericial laudoPericial = laudoPericialService.buscarOuFalhar(laudoId);
-        return laudoPericial.getQuesitos();
+        return quesitoRepository.findAllByLaudoId(laudoId);
     }
 
     public Optional<Quesito> buscar(String quesitoId) {
@@ -32,38 +28,27 @@ public class QuesitoService {
 
     @Transactional
     public Quesito salvar(String laudoId, Quesito quesito) {
-        return transactionalService.salvar(laudoId, quesito);
+        quesito.setLaudoId(laudoId);
+        return quesitoRepository.save(quesito);
     }
 
-    public Quesito buscarOuFalhar(String quesitoId) {
+    public Quesito buscarPorIdOuFalhar(String quesitoId) {
         return quesitoRepository.findById(quesitoId)
                 .orElseThrow(() -> new QuesitoNaoEncontradoException(quesitoId));
     }
 
     @Transactional
-    public void remover(String laudoId, String quesitoId) {
-        LaudoPericial laudo = laudoPericialService.buscarOuFalhar(laudoId);
-        List<Quesito> quesitos = laudo.getQuesitos();
-
-        if (quesitos.removeIf(q -> q.getId().equals(quesitoId))) {
-            laudoPericialService.atualizar(laudoId, laudo);
-            quesitoRepository.deleteById(quesitoId);
-        } else {
-            throw new QuesitoNaoEncontradoException(QUESITO_NAO_ENCONTRADO, laudoId);
-        }
+    public void remover(String quesitoId) {
+        quesitoRepository.deleteById(quesitoId);
     }
 
     @Transactional
-    public Quesito atualizar(String laudoId, String quesitoId, Quesito quesito) {
-        Optional<LaudoPericial> laudoOpt = laudoPericialService.buscar(laudoId);
-        Quesito quesitoExistente = buscarOuFalhar(quesitoId);
+    public Quesito atualizar(String quesitoId, Quesito quesito) {
+        Quesito quesitoAtualizado = buscarPorIdOuFalhar(quesitoId);
+        quesitoAtualizado.setParte(quesito.getParte());
+        quesitoAtualizado.setPergunta(quesito.getPergunta());
+        quesitoAtualizado.setResposta(quesito.getResposta());
 
-        if (laudoOpt.isPresent()) {
-            quesitoExistente.setParte(quesito.getParte());
-            quesitoExistente.setPergunta(quesito.getPergunta());
-            quesitoExistente.setResposta(quesito.getResposta());
-            return transactionalService.salvar(laudoOpt.get().getId(), quesitoExistente);
-        }
-        return null;
+        return quesitoAtualizado;
     }
 }

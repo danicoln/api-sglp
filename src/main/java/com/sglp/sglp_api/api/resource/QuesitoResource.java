@@ -7,12 +7,10 @@ import com.sglp.sglp_api.domain.exception.EntidadeNaoEncontradaException;
 import com.sglp.sglp_api.domain.model.Quesito;
 import com.sglp.sglp_api.domain.service.QuesitoService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,7 +29,7 @@ public class QuesitoResource {
 
     @GetMapping("/{quesitoId}")
     public QuesitoModel buscar(@PathVariable String quesitoId) {
-        Quesito quesito = quesitoService.buscarOuFalhar(quesitoId);
+        Quesito quesito = quesitoService.buscarPorIdOuFalhar(quesitoId);
 
         return mapper.toModel(quesito);
     }
@@ -46,21 +44,19 @@ public class QuesitoResource {
     }
 
     @PutMapping("/{quesitoId}")
-    public ResponseEntity<QuesitoModel> atualizar(@PathVariable String laudoId,
-                                                  @PathVariable String quesitoId,
+    public ResponseEntity<QuesitoModel> atualizar(@PathVariable String quesitoId,
                                                   @RequestBody QuesitoInput input) {
         Quesito quesito = mapper.toEntity(input);
-        Quesito quesitoAtualizado = quesitoService.atualizar(laudoId, quesitoId, quesito);
+        Quesito quesitoAtualizado = quesitoService.atualizar(quesitoId, quesito);
         QuesitoModel model = mapper.toModel(quesitoAtualizado);
 
         return ResponseEntity.ok(model);
     }
 
     @DeleteMapping("/{quesitoId}")
-    public ResponseEntity<Quesito> remover(@PathVariable String laudoId,
-                                           @PathVariable String quesitoId) {
+    public ResponseEntity<Quesito> remover(@PathVariable String quesitoId) {
         try {
-            quesitoService.remover(laudoId, quesitoId);
+            quesitoService.remover(quesitoId);
             return ResponseEntity.noContent().build();
 
         } catch (EntidadeNaoEncontradaException e) {
