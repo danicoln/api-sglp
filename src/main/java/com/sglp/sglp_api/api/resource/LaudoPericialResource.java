@@ -33,11 +33,11 @@ public class LaudoPericialResource {
     public ResponseEntity<LaudoPericialModel> buscar(@PathVariable String laudoId) {
         Optional<LaudoPericial> laudoPericial = laudoPericialService.buscar(laudoId);
 
-        if (laudoPericial.isPresent()) {
-            LaudoPericialModel model = mapper.toModel(laudoPericial.get());
-            return ResponseEntity.ok(model);
+        if (laudoPericial.isEmpty()) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        LaudoPericialModel model = mapper.toModel(laudoPericial.get());
+        return ResponseEntity.ok(model);
     }
 
     @PostMapping

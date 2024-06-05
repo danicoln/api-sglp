@@ -27,7 +27,5 @@ public class LaudoPericialInput {
 //    @NotBlank
     private String historico;
     private ExameDaMateriaInput exameDaMateria;
-
-//    private List<QuesitoInput> quesitos;
-//    private List<ObjetoLaudoInput> objetos;
+    private List<QuesitoInput> quesitos;
 }
