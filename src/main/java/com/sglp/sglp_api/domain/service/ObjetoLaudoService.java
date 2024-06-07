@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -23,7 +22,7 @@ public class ObjetoLaudoService {
     private ExameDaMateriaService exameDaMateriaService;
 
     public List<ObjetoLaudo> listar(String exameId) {
-        return objetoLaudoRepository.findByExameDaMateriaId(exameId);
+        return objetoLaudoRepository.findAllByExameDaMateriaId(exameId);
     }
 
     public ObjetoLaudo buscarPorId(String exameId, String objetoId) {
@@ -48,6 +47,7 @@ public class ObjetoLaudoService {
         return objetoLaudoRepository.save(objeto);
     }
 
+    @Transactional
     public void remover(String objetoId) {
         objetoLaudoRepository.deleteById(objetoId);
     }
