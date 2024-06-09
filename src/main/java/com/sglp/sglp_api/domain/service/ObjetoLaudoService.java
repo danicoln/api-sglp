@@ -27,7 +27,7 @@ public class ObjetoLaudoService {
 
     public ObjetoLaudo buscarPorId(String exameId, String objetoId) {
         ExameDaMateria exame = exameDaMateriaService.buscarOuFalhar(exameId);
-        ObjetoLaudo objetoEncontrado = buscarOuFalhar(objetoId);
+        ObjetoLaudo objetoEncontrado = buscarPorIdOuFalhar(objetoId);
 
         if (!exame.getId().equals(objetoEncontrado.getExameDaMateriaId())) {
             throw new ObjetoLaudoNaoEncontradoException(OBJETO_NAO_ENCONTRADO, objetoId);
@@ -35,7 +35,7 @@ public class ObjetoLaudoService {
         return objetoEncontrado;
     }
 
-    public ObjetoLaudo buscarOuFalhar(String objetoId) {
+    public ObjetoLaudo buscarPorIdOuFalhar(String objetoId) {
         return objetoLaudoRepository.findById(objetoId)
                 .orElseThrow(() -> new ObjetoLaudoNaoEncontradoException(objetoId));
     }
@@ -58,7 +58,7 @@ public class ObjetoLaudoService {
 
     @Transactional
     public ObjetoLaudo atualizar(String objetoId, ObjetoLaudo objetoLaudo) {
-        ObjetoLaudo objetoExistente = buscarOuFalhar(objetoId);
+        ObjetoLaudo objetoExistente = buscarPorIdOuFalhar(objetoId);
         objetoExistente.setNomeTitulo(objetoLaudo.getNomeTitulo());
         objetoExistente.setDescricao(objetoLaudo.getDescricao());
         objetoExistente.setData(objetoLaudo.getData());
