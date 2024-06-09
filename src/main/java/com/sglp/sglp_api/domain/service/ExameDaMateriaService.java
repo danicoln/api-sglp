@@ -26,8 +26,12 @@ public class ExameDaMateriaService {
     @Autowired
     private ExameDaMateriaRepository exameDaMateriaRepository;
 
+    //TODO: Analisar e refatorar
     @Autowired
     private ObjetoLaudoRepository objetoLaudoRepository;
+    //TODO: Problema com recursividade
+//    @Autowired
+//    private ObjetoLaudoService objetoLaudoService;
 
     @Autowired
     private LaudoPericialService laudoPericialService;
