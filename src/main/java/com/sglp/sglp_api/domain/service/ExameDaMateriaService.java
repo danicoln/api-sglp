@@ -26,13 +26,6 @@ public class ExameDaMateriaService {
     @Autowired
     private ExameDaMateriaRepository exameDaMateriaRepository;
 
-    //TODO: Analisar e refatorar
-    @Autowired
-    private ObjetoLaudoRepository objetoLaudoRepository;
-    //TODO: Problema com recursividade
-//    @Autowired
-//    private ObjetoLaudoService objetoLaudoService;
-
     @Autowired
     private LaudoPericialService laudoPericialService;
 
@@ -59,21 +52,8 @@ public class ExameDaMateriaService {
         ExameDaMateria exameSalvo = exameDaMateriaRepository.save(exameDaMateria);
         laudo.setExameDaMateria(exameSalvo);
         laudoPericialService.salvar(laudo);
+        return exameSalvo;
 
-        if (exameDaMateria.getObjetosIds() == null) {
-            exameDaMateria.setObjetosIds(new ArrayList<>());
-        }
-        String exameId = exameSalvo.getId();
-
-        List<String> objetosIdsSalvos = new ArrayList<>();
-        for (String objetoId : exameDaMateria.getObjetosIds()) {
-            ObjetoLaudo objeto = buscarObjetoPorId(objetoId);
-
-            objeto.setExameDaMateriaId(exameId);
-            objetosIdsSalvos.add(objeto.getId());
-        }
-        exameSalvo.getObjetosIds().addAll(objetosIdsSalvos);
-        return exameDaMateriaRepository.save(exameSalvo);
     }
 
     public ExameDaMateria buscarOuFalhar(String exameId) {
@@ -105,11 +85,6 @@ public class ExameDaMateriaService {
 
         }
         return null;
-    }
-
-    private ObjetoLaudo buscarObjetoPorId(String objetoId) {
-        return objetoLaudoRepository.findById(objetoId)
-                .orElseThrow(() -> new ObjetoLaudoNaoEncontradoException(OBJETO_NAO_ENCONTRADO, objetoId));
     }
 
     private void removerExameDoLaudoById(String laudoId) {
