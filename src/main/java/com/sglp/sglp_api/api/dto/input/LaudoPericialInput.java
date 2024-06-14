@@ -28,4 +28,5 @@ public class LaudoPericialInput {
     private String historico;
     private ExameDaMateriaInput exameDaMateria;
     private List<QuesitoInput> quesitos;
+    private boolean ativo;
 }

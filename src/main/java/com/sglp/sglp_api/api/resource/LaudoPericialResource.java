@@ -57,6 +57,30 @@ public class LaudoPericialResource {
         return ResponseEntity.ok(model);
     }
 
-    //TODO: Implementar método de ativar e desativar laudo pericial.
+    @PutMapping("/{laudoId}/ativar")
+    public ResponseEntity<Void> ativar(@PathVariable String laudoId) {
+        Optional<LaudoPericial> laudoOpt = laudoPericialService.buscar(laudoId);
+
+        if(laudoOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        LaudoPericial laudo = laudoOpt.get();
+        laudo.setAtivo(true);
+        laudoPericialService.atualizar(laudoId, laudo);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{laudoId}/desativar")
+    public ResponseEntity<Void> desativar(@PathVariable String laudoId) {
+        Optional<LaudoPericial> laudoOpt = laudoPericialService.buscar(laudoId);
+
+        if(laudoOpt.isEmpty()) {
+            return ResponseEntity.notFound().build();
+        }
+        LaudoPericial laudo = laudoOpt.get();
+        laudo.setAtivo(false);
+        laudoPericialService.atualizar(laudoId, laudo);
+        return ResponseEntity.noContent().build();
+    }
 
 }
