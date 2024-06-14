@@ -19,5 +19,6 @@ public class LaudoPericialModel {
     private String conclusao;
     private String historico;
     private ExameDaMateriaModel exameDaMateria;
-        private List<QuesitoModel> quesitos;
+    private List<QuesitoModel> quesitos;
+    private boolean ativo;
 }

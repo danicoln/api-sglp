@@ -44,4 +44,5 @@ public class LaudoPericial {
 
     @DBRef
     private List<Quesito> quesitos = new ArrayList<>();
+    private boolean ativo;
 }
