@@ -54,7 +54,7 @@ public class QuesitoResource {
     }
 
     @DeleteMapping("/{quesitoId}")
-    public ResponseEntity<Quesito> remover(@PathVariable String quesitoId) {
+    public ResponseEntity<QuesitoModel> remover(@PathVariable String quesitoId) {
         try {
             quesitoService.remover(quesitoId);
             return ResponseEntity.noContent().build();
