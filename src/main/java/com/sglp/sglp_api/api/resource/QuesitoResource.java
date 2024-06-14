@@ -28,10 +28,10 @@ public class QuesitoResource {
     }
 
     @GetMapping("/{quesitoId}")
-    public QuesitoModel buscar(@PathVariable String quesitoId) {
+    public ResponseEntity<QuesitoModel> buscar(@PathVariable String quesitoId) {
         Quesito quesito = quesitoService.buscarPorIdOuFalhar(quesitoId);
 
-        return mapper.toModel(quesito);
+        return ResponseEntity.ok(mapper.toModel(quesito));
     }
 
     @PostMapping
