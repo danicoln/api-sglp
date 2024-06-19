@@ -22,6 +22,12 @@ public class LaudoPericialService {
 
     @Transactional
     public LaudoPericial salvar(LaudoPericial laudoPericial) {
+        String numeroProcesso = laudoPericial.getProcesso().getNumero();
+
+        if(numeroProcesso.isEmpty()) {
+            return null;
+        }
+
         return laudoPericialRepository.save(laudoPericial);
     }
 

@@ -24,8 +24,7 @@ public class LaudoPericial {
     @Id
     @EqualsAndHashCode.Include
     private String id;
-    @NotNull
-    private Processo processo;
+
     @NotBlank
     private String objetivo;
     @NotBlank
@@ -45,4 +44,6 @@ public class LaudoPericial {
     @DBRef
     private List<Quesito> quesitos = new ArrayList<>();
     private boolean ativo;
+    private Processo processo;
+    private String status;
 }
