@@ -1,5 +1,6 @@
 package com.sglp.sglp_api.domain.model;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -8,6 +9,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data
@@ -21,8 +23,11 @@ public class Nomeacao implements Serializable {
     @EqualsAndHashCode.Include
     private String id;
     private LocalDateTime dataNomeacao;
+    @NotNull
     private Processo processo;
     private String aceite;
     private LocalDateTime dataAceite;
     private LocalDateTime prazo;
+    private BigDecimal honorarioHomologado;
+    private BigDecimal honorarioEnviado;
 }

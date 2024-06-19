@@ -11,7 +11,6 @@ import java.util.List;
 public class LaudoPericialModel {
 
     private String id;
-    private ProcessoModel processo;
     private String objetivo;
     private String metodologiaAplicada;
     private String introducao;
@@ -21,4 +20,6 @@ public class LaudoPericialModel {
     private ExameDaMateriaModel exameDaMateria;
     private List<QuesitoModel> quesitos;
     private boolean ativo;
+    private String status;
+    private ProcessoModel processo;
 }
