@@ -1,5 +1,6 @@
 package com.sglp.sglp_api.domain.service;
 
+import com.sglp.sglp_api.domain.exception.NomeacaoExistenteException;
 import com.sglp.sglp_api.domain.exception.NomeacaoNaoEncontradaException;
 import com.sglp.sglp_api.domain.model.Nomeacao;
 import com.sglp.sglp_api.domain.repository.NomeacaoRepository;
@@ -14,6 +15,8 @@ import java.util.List;
 @AllArgsConstructor
 public class NomeacaoService {
 
+    public static final String NOMEACAO_COM_O_MESMO_PROCESSO = "Já existe uma nomeação com o mesmo processo";
+
     private final NomeacaoRepository nomeacaoRepository;
 
     public List<Nomeacao> listar() {
@@ -27,6 +30,9 @@ public class NomeacaoService {
 
     @Transactional
     public Nomeacao salvar(Nomeacao nomeacao) {
+        if(nomeacaoRepository.existsByProcessoNumero(nomeacao.getProcesso().getNumero())){
+            throw new NomeacaoExistenteException(NOMEACAO_COM_O_MESMO_PROCESSO);
+        }
         return nomeacaoRepository.save(nomeacao);
     }
 
