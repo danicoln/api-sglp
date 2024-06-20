@@ -46,4 +46,5 @@ public class LaudoPericial {
     private boolean ativo;
     private Processo processo;
     private String status;
+    private String numero;
 }
