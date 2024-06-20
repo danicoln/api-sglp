@@ -22,4 +22,5 @@ public class LaudoPericialModel {
     private boolean ativo;
     private String status;
     private ProcessoModel processo;
+    private String numero;
 }
