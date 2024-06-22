@@ -56,8 +56,7 @@ public class LaudoPericialService {
     @Transactional
     public LaudoPericial atualizar(String laudoId, LaudoPericial laudo) {
         LaudoPericial laudoExistente = buscarPorIdOuFalhar(laudoId);
-        BeanUtils.copyProperties(laudo, laudoExistente, "id", "numero");
+        BeanUtils.copyProperties(laudo, laudoExistente, "id", "numero", "ativo");
         return laudoPericialRepository.save(laudoExistente);
     }
-
 }
