@@ -9,14 +9,12 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
-
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
 @Document(collection = "processos")
-public class Processo implements Serializable {
+public class Processo {
 
     @Id
     @EqualsAndHashCode.Include
@@ -32,6 +30,8 @@ public class Processo implements Serializable {
     private String nomeAutor;
     private String nomeReu;
     private String assunto;
+    private Advogado advogadoAutor;
+    private Advogado advogadoReu;
 
     private String laudoId;
 }

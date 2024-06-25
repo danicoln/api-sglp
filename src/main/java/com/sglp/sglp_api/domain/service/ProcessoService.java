@@ -36,6 +36,7 @@ public class ProcessoService {
                 .orElseThrow(() -> new ProcessoNaoEcontradoException(processoId));
     }
 
+    @Transactional
     public void remover(String processoId) {
         processoRepository.deleteById(processoId);
     }
