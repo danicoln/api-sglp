@@ -30,12 +30,14 @@ public class NomeacaoService {
 
     @Transactional
     public Nomeacao salvar(Nomeacao nomeacao) {
-        if(nomeacaoRepository.existsByProcessoNumero(nomeacao.getProcesso().getNumero())){
+        boolean isProcessoExistente = nomeacaoRepository.existsByProcessoNumero(nomeacao.getProcesso().getNumero());
+        if(isProcessoExistente){
             throw new NomeacaoExistenteException(NOMEACAO_COM_O_MESMO_PROCESSO);
         }
         return nomeacaoRepository.save(nomeacao);
     }
 
+    @Transactional
     public void remover(String nomeacaoId) {
         nomeacaoRepository.deleteById(nomeacaoId);
     }
