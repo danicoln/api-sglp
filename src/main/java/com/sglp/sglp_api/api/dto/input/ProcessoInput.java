@@ -1,6 +1,5 @@
 package com.sglp.sglp_api.api.dto.input;
 
-import com.sglp.sglp_api.domain.model.Advogado;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -17,8 +16,8 @@ public class ProcessoInput {
     private String nomeAutor;
     private String nomeReu;
     private String assunto;
-    private Advogado advogadoAutor;
-    private Advogado advogadoReu;
+    private AdvogadoInput advogadoAutor;
+    private AdvogadoInput advogadoReu;
 
     private String laudoId;
 }
