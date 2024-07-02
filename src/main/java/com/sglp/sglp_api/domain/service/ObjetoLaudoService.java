@@ -4,6 +4,7 @@ import com.sglp.sglp_api.domain.exception.ObjetoLaudoNaoEncontradoException;
 import com.sglp.sglp_api.domain.model.ExameDaMateria;
 import com.sglp.sglp_api.domain.model.ObjetoLaudo;
 import com.sglp.sglp_api.domain.repository.ObjetoLaudoRepository;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,9 +60,7 @@ public class ObjetoLaudoService {
     @Transactional
     public ObjetoLaudo atualizar(String objetoId, ObjetoLaudo objetoLaudo) {
         ObjetoLaudo objetoExistente = buscarPorIdOuFalhar(objetoId);
-        objetoExistente.setNomeTitulo(objetoLaudo.getNomeTitulo());
-        objetoExistente.setDescricao(objetoLaudo.getDescricao());
-        objetoExistente.setData(objetoLaudo.getData());
+        BeanUtils.copyProperties(objetoLaudo, objetoExistente, "id");
         return objetoLaudoRepository.save(objetoExistente);
     }
 

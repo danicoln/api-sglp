@@ -9,7 +9,7 @@ import lombok.Setter;
 public class QuesitoInput {
 
     private String id;
-    private String parte;
+    private Parte parte;
     private String pergunta;
     private String resposta;
     private String laudoId;
