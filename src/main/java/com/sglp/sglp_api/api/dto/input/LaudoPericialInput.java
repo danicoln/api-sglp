@@ -18,6 +18,7 @@ public class LaudoPericialInput {
     private String introducao;
     private LocalDateTime dataDoLaudo;
     private String historico;
+    private String historicoIA;
     private ExameDaMateriaInput exameDaMateria;
     private List<QuesitoInput> quesitos;
     private boolean ativo;

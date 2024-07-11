@@ -18,6 +18,7 @@ public class LaudoPericialModel {
     private LocalDateTime dataDoLaudo;
     private String conclusao;
     private String historico;
+    private String historicoIA;
     private ExameDaMateriaModel exameDaMateria;
     private List<QuesitoModel> quesitos;
     private boolean ativo;
