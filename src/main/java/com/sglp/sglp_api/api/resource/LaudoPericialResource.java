@@ -6,7 +6,7 @@ import com.sglp.sglp_api.api.mapper.LaudoPericialMapper;
 import com.sglp.sglp_api.domain.model.LaudoPericial;
 import com.sglp.sglp_api.domain.service.LaudoPericialService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,15 +14,14 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.Optional;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/laudos")
 public class LaudoPericialResource {
 
-    @Autowired
-    private LaudoPericialService laudoPericialService;
+    private final LaudoPericialService laudoPericialService;
+    private final LaudoPericialMapper mapper;
 
-    @Autowired
-    private LaudoPericialMapper mapper;
 
     @GetMapping
     public List<LaudoPericialModel> listar() {
@@ -61,7 +60,7 @@ public class LaudoPericialResource {
     public ResponseEntity<Void> ativar(@PathVariable String laudoId) {
         Optional<LaudoPericial> laudoOpt = laudoPericialService.buscar(laudoId);
 
-        if(laudoOpt.isEmpty()) {
+        if (laudoOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         LaudoPericial laudo = laudoOpt.get();
@@ -74,7 +73,7 @@ public class LaudoPericialResource {
     public ResponseEntity<Void> desativar(@PathVariable String laudoId) {
         Optional<LaudoPericial> laudoOpt = laudoPericialService.buscar(laudoId);
 
-        if(laudoOpt.isEmpty()) {
+        if (laudoOpt.isEmpty()) {
             return ResponseEntity.notFound().build();
         }
         LaudoPericial laudo = laudoOpt.get();
@@ -82,5 +81,7 @@ public class LaudoPericialResource {
         laudoPericialService.atualizar(laudoId, laudo);
         return ResponseEntity.noContent().build();
     }
+
+
 
 }

@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
@@ -17,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @EqualsAndHashCode
 @Document(collection = "nomeacoes")
-public class Nomeacao implements Serializable {
+public class Nomeacao {
 
     @Id
     @EqualsAndHashCode.Include
@@ -25,9 +24,11 @@ public class Nomeacao implements Serializable {
     private LocalDateTime dataNomeacao;
     @NotNull
     private Processo processo;
-    private String aceite;
+    private Boolean aceite;
     private LocalDateTime dataAceite;
     private LocalDateTime prazo;
     private BigDecimal honorarioHomologado;
     private BigDecimal honorarioEnviado;
+
+
 }
