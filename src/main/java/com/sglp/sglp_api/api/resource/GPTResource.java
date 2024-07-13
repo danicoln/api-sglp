@@ -1,31 +1,36 @@
 package com.sglp.sglp_api.api.resource;
 
 import com.sglp.sglp_api.api.dto.input.ChatGPTRequest;
-import com.sglp.sglp_api.api.dto.model.ChatGPTResponse;
+import com.sglp.sglp_api.domain.service.ChatGPTService;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestTemplate;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Collections;
+import java.util.Map;
+
+@AllArgsConstructor
 @RestController
 @RequestMapping("/api/ia")
 public class GPTResource {
 
-    @Value("${spring.ai.openai.model}")
-    private String model;
+    private final ChatGPTService gptService;
 
-    @Value("${spring.ai.openai.api.url}")
-    private String apiUrl;
+    @PostMapping("/chat")
+    public ResponseEntity<Map<String, String>> chat(@RequestBody ChatGPTRequest request) {
+        try {
+            String response = gptService.processChatRequest(request);
+            return ResponseEntity.ok(Collections.singletonMap("content", response));
 
-    @Autowired
-    private RestTemplate template;
-
-    @GetMapping("/chat")
-    public String chat(@RequestParam("prompt") String prompt){
-        ChatGPTRequest request = new ChatGPTRequest("gpt-3.5-turbo", prompt);
-        ChatGPTResponse chatGPTResponse = template.postForObject(apiUrl, request, ChatGPTResponse.class);
-        assert chatGPTResponse != null;
-        return chatGPTResponse.getChoices().get(0).getMessage().getContent();
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Collections.singletonMap("error", e.getMessage()));
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Collections.singletonMap("error", e.getMessage()));
+        }
     }
-
 }
