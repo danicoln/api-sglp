@@ -2,6 +2,7 @@ package com.sglp.sglp_api.domain.service;
 
 import com.sglp.sglp_api.domain.exception.LaudoPericialNaoEncontradoException;
 import com.sglp.sglp_api.domain.model.LaudoPericial;
+import com.sglp.sglp_api.domain.model.Status;
 import com.sglp.sglp_api.domain.repository.LaudoPericialRepository;
 import com.sglp.sglp_api.domain.service.utils.NumeroLaudoGenerator;
 import lombok.AllArgsConstructor;
@@ -37,6 +38,7 @@ public class LaudoPericialService {
             laudoPericial.setNumero(generator.gerarNumeroDoLaudo(LocalDateTime.now()));
         }
         laudoPericial.setAtivo(true);
+        laudoPericial.setStatus(Status.NAO_INICIADO);
         return laudoPericialRepository.save(laudoPericial);
     }
 
