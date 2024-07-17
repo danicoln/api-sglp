@@ -1,5 +1,7 @@
 package com.sglp.sglp_api.domain.model;
 
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
@@ -45,6 +47,8 @@ public class LaudoPericial {
     private List<Quesito> quesitos = new ArrayList<>();
     private boolean ativo;
     private Processo processo;
-    private String status;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
     private String numero;
 }

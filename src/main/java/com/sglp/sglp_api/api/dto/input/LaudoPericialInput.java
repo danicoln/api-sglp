@@ -1,5 +1,6 @@
 package com.sglp.sglp_api.api.dto.input;
 
+import com.sglp.sglp_api.domain.model.Status;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,6 +22,6 @@ public class LaudoPericialInput {
     private ExameDaMateriaInput exameDaMateria;
     private List<QuesitoInput> quesitos;
     private boolean ativo;
-    private String status;
+    private Status status;
     private ProcessoInput processo;
 }
