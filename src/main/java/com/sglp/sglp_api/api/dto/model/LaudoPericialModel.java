@@ -22,7 +22,7 @@ public class LaudoPericialModel {
     private ExameDaMateriaModel exameDaMateria;
     private List<QuesitoModel> quesitos;
     private boolean ativo;
-    private Status status;
+    private String status;
     private ProcessoModel processo;
     private String numero;
 }

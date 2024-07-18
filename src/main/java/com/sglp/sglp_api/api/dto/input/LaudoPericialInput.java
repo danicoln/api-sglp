@@ -22,6 +22,6 @@ public class LaudoPericialInput {
     private ExameDaMateriaInput exameDaMateria;
     private List<QuesitoInput> quesitos;
     private boolean ativo;
-    private Status status;
+    private String status;
     private ProcessoInput processo;
 }
