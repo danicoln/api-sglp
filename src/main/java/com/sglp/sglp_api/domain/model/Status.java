@@ -37,6 +37,7 @@ public enum Status {
 
     @JsonCreator
     public static Status fromCodigo(String codigo) {
+        System.out.println("Código recebido: " + codigo);
         for (Status status : Status.values()) {
             if (status.codigo.equalsIgnoreCase(codigo)) {
                 return status;

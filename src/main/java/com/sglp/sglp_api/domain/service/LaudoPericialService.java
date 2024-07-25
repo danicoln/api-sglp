@@ -37,8 +37,12 @@ public class LaudoPericialService {
         if(laudoPericial.getNumero() == null) {
             laudoPericial.setNumero(generator.gerarNumeroDoLaudo(LocalDateTime.now()));
         }
+
+        if(laudoPericial.getStatus() == null){
+            laudoPericial.setStatus(Status.NAO_INICIADO);
+        }
+
         laudoPericial.setAtivo(true);
-        laudoPericial.setStatus(Status.NAO_INICIADO);
         return laudoPericialRepository.save(laudoPericial);
     }
 
@@ -59,6 +63,7 @@ public class LaudoPericialService {
     public LaudoPericial atualizar(String laudoId, LaudoPericial laudo) {
         LaudoPericial laudoExistente = buscarPorIdOuFalhar(laudoId);
         BeanUtils.copyProperties(laudo, laudoExistente, "id", "numero", "ativo", "exameDaMateria");
+        laudoExistente.setStatus(laudo.getStatus());
         return laudoPericialRepository.save(laudoExistente);
     }
 }

@@ -3,7 +3,6 @@ package com.sglp.sglp_api.api.resource;
 import com.sglp.sglp_api.api.dto.input.ChatGPTRequest;
 import com.sglp.sglp_api.domain.service.ChatGPTService;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
