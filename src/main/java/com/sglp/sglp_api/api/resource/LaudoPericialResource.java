@@ -24,8 +24,8 @@ public class LaudoPericialResource {
 
 
     @GetMapping
-    public List<LaudoPericialModel> listar() {
-        return mapper.toModelList(laudoPericialService.listar());
+    public List<LaudoPericialModel> listar(@RequestParam(value = "ativo", defaultValue = "true") boolean ativo) {
+        return mapper.toModelList(laudoPericialService.listarAtivos(ativo));
     }
 
     @GetMapping("/{laudoId}")
@@ -65,7 +65,7 @@ public class LaudoPericialResource {
         }
         LaudoPericial laudo = laudoOpt.get();
         laudo.setAtivo(true);
-        laudoPericialService.atualizar(laudoId, laudo);
+        laudoPericialService.ativar(laudoId);
         return ResponseEntity.noContent().build();
     }
 
@@ -78,7 +78,7 @@ public class LaudoPericialResource {
         }
         LaudoPericial laudo = laudoOpt.get();
         laudo.setAtivo(false);
-        laudoPericialService.atualizar(laudoId, laudo);
+        laudoPericialService.desativar(laudoId);
         return ResponseEntity.noContent().build();
     }
 
