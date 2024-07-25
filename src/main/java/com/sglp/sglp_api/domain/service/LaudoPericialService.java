@@ -50,6 +50,10 @@ public class LaudoPericialService {
         return laudoPericialRepository.findAll();
     }
 
+    public List<LaudoPericial> listarAtivos(boolean ativo) {
+        return laudoPericialRepository.findAllByAtivo(ativo);
+    }
+
     public LaudoPericial buscarPorIdOuFalhar(String laudoId) {
         return laudoPericialRepository.findById(laudoId)
                 .orElseThrow(() -> new LaudoPericialNaoEncontradoException(laudoId));
@@ -65,5 +69,17 @@ public class LaudoPericialService {
         BeanUtils.copyProperties(laudo, laudoExistente, "id", "numero", "ativo", "exameDaMateria");
         laudoExistente.setStatus(laudo.getStatus());
         return laudoPericialRepository.save(laudoExistente);
+    }
+
+    public void ativar(String laudoId) {
+        LaudoPericial laudoAtualizado = buscarPorIdOuFalhar(laudoId);
+        laudoAtualizado.setAtivo(true);
+        laudoPericialRepository.save(laudoAtualizado);
+    }
+
+    public void desativar(String laudoId) {
+        LaudoPericial laudoAtualizado = buscarPorIdOuFalhar(laudoId);
+        laudoAtualizado.setAtivo(false);
+        laudoPericialRepository.save(laudoAtualizado);
     }
 }
