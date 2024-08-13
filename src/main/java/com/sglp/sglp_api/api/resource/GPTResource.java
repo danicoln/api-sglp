@@ -1,7 +1,7 @@
 package com.sglp.sglp_api.api.resource;
 
 import com.sglp.sglp_api.api.dto.input.ChatGPTRequest;
-import com.sglp.sglp_api.domain.service.ChatGPTService;
+import com.sglp.sglp_api.domain.service.IAService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +18,7 @@ import java.util.Map;
 @RequestMapping("/api/ia")
 public class GPTResource {
 
-    private final ChatGPTService gptService;
+    private final IAService gptService;
 
     @PostMapping("/chat")
     public ResponseEntity<Map<String, String>> chat(@RequestBody ChatGPTRequest request) {
