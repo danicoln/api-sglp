@@ -2,13 +2,15 @@ package com.sglp.sglp_api.domain.service;
 
 import com.sglp.sglp_api.api.dto.input.ChatGPTRequest;
 import com.sglp.sglp_api.api.dto.model.ChatGPTResponse;
+import com.sglp.sglp_api.domain.service.strategy.GPTStrategy;
+import com.sglp.sglp_api.domain.service.strategy.QuesitoStrategy;
 import org.springframework.ai.openai.api.common.OpenAiApiException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class ChatGPTService {
+public class IAService {
 
     public static final String DADOS_INVALIDOS = "Dados inválidos na requisição";
     public static final String SEM_RESPOSTA_PARA_A_IA = "Sem resposta para a IA";
@@ -19,13 +21,20 @@ public class ChatGPTService {
 
     private final RestTemplate restTemplate;
 
-    public ChatGPTService(RestTemplate restTemplate) {
+    public IAService(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
 
     public String processChatRequest(ChatGPTRequest request) {
         validateRequest(request);
         String prompt = RESP_PORTUGUES_BR + request.getMessages().get(0).getContent();
+        request.getMessages().get(0).setContent(prompt);
+        ChatGPTResponse chatGPTResponse = restTemplate.postForObject(apiUrl, request, ChatGPTResponse.class);
+        return validateResponse(chatGPTResponse);
+    }
+
+    public String processEntityRequest(ChatGPTRequest request, String prompt ) {
+        validateRequest(request);
         request.getMessages().get(0).setContent(prompt);
         ChatGPTResponse chatGPTResponse = restTemplate.postForObject(apiUrl, request, ChatGPTResponse.class);
         return validateResponse(chatGPTResponse);
@@ -47,4 +56,5 @@ public class ChatGPTService {
             throw new IllegalArgumentException(DADOS_INVALIDOS);
         }
     }
+
 }

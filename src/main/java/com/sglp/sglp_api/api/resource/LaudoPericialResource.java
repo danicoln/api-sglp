@@ -1,17 +1,22 @@
 package com.sglp.sglp_api.api.resource;
 
+import com.sglp.sglp_api.api.dto.input.ChatGPTRequest;
 import com.sglp.sglp_api.api.dto.input.LaudoPericialInput;
 import com.sglp.sglp_api.api.dto.model.LaudoPericialModel;
 import com.sglp.sglp_api.api.mapper.LaudoPericialMapper;
 import com.sglp.sglp_api.domain.model.LaudoPericial;
+import com.sglp.sglp_api.domain.service.IAService;
 import com.sglp.sglp_api.domain.service.LaudoPericialService;
+import com.sglp.sglp_api.domain.service.strategy.LaudoStrategy;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @AllArgsConstructor
@@ -21,6 +26,8 @@ public class LaudoPericialResource {
 
     private final LaudoPericialService laudoPericialService;
     private final LaudoPericialMapper mapper;
+    private final IAService iaService;
+    private final LaudoStrategy strategy;
 
 
     @GetMapping
@@ -82,6 +89,13 @@ public class LaudoPericialResource {
         return ResponseEntity.noContent().build();
     }
 
-
+    @PostMapping("/ia")
+    public ResponseEntity<Map<String, String>> getIAResponse(@RequestBody ChatGPTRequest request){
+        var prompt = strategy.buildPrompt(request);
+        var response = iaService.processEntityRequest(request, prompt);
+        Map<String, String> responseBody = new HashMap<>();
+        responseBody.put("content", response);
+        return ResponseEntity.ok(responseBody);
+    }
 
 }
