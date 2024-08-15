@@ -5,6 +5,7 @@ import com.sglp.sglp_api.api.dto.model.ChatGPTResponse;
 import com.sglp.sglp_api.domain.service.strategy.GPTStrategy;
 import com.sglp.sglp_api.domain.service.strategy.QuesitoStrategy;
 import org.springframework.ai.openai.api.common.OpenAiApiException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -19,11 +20,9 @@ public class IAService {
     @Value("${spring.ai.openai.api.url}")
     private String apiUrl;
 
-    private final RestTemplate restTemplate;
+    @Autowired
+    private RestTemplate restTemplate;
 
-    public IAService(RestTemplate restTemplate) {
-        this.restTemplate = restTemplate;
-    }
 
     public String processChatRequest(ChatGPTRequest request) {
         validateRequest(request);
