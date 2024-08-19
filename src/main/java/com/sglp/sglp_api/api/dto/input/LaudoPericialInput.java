@@ -1,11 +1,9 @@
 package com.sglp.sglp_api.api.dto.input;
 
-import com.sglp.sglp_api.domain.model.Status;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Getter
@@ -19,7 +17,7 @@ public class LaudoPericialInput {
     private String introducao;
     private LocalDateTime dataDoLaudo;
     private String historico;
-    private ExameDaMateriaInput exameDaMateria;
+    private ExameInput exameDaMateria;
     private List<QuesitoInput> quesitos;
     private boolean ativo;
     private String status;

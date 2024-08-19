@@ -41,7 +41,7 @@ public class LaudoPericial {
 
     @NotNull
     @DBRef
-    private ExameDaMateria exameDaMateria;
+    private Exame exame;
 
     @DBRef
     private List<Quesito> quesitos = new ArrayList<>();

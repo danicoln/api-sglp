@@ -1,26 +1,25 @@
 package com.sglp.sglp_api.domain.model;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.util.List;
+import java.time.LocalDateTime;
 
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 @Document(collection = "exames")
-public class ExameDaMateria {
+public class Exame extends AbstractModel {
 
     @Id
     @EqualsAndHashCode.Include
     private String id;
-    private List<String> objetosIds;
-
+    private String observacao;
+    private String titulo;
     private String descricao;
+    private LocalDateTime data;
+    private String laudoId;
 }
