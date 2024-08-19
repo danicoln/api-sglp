@@ -1,11 +1,9 @@
 package com.sglp.sglp_api.api.dto.model;
 
-import com.sglp.sglp_api.domain.model.Status;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 import java.util.List;
 
 @Getter
@@ -19,7 +17,7 @@ public class LaudoPericialModel {
     private LocalDateTime dataDoLaudo;
     private String conclusao;
     private String historico;
-    private ExameDaMateriaModel exameDaMateria;
+    private ExameModel exameDaMateria;
     private List<QuesitoModel> quesitos;
     private boolean ativo;
     private String status;
