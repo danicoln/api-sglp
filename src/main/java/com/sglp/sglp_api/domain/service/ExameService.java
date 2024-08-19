@@ -1,7 +1,6 @@
 package com.sglp.sglp_api.domain.service;
 
 import com.sglp.sglp_api.domain.exception.ExameNaoEncontradoException;
-import com.sglp.sglp_api.domain.exception.ExameExistenteException;
 import com.sglp.sglp_api.domain.model.Exame;
 import com.sglp.sglp_api.domain.model.LaudoPericial;
 import com.sglp.sglp_api.domain.repository.ExameRepository;
@@ -10,7 +9,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ExameService {
@@ -52,27 +50,31 @@ public class ExameService {
         removerExameDoLaudoById(laudoId);
     }
 
-    public Exame buscarPorId(String laudoId, String exameId) {
-        LaudoPericial laudoPericial = laudoPericialService.buscarPorIdOuFalhar(laudoId);
-        Optional<Exame> exameOptional = exameRepository.findById(exameId);
-
-        return exameOptional.get();
-    }
 
     @Transactional
     public Exame atualizar(String laudoId, String exameId, Exame exame) {
-        Optional<LaudoPericial> laudoOptional = laudoPericialService.buscar(laudoId);
+        LaudoPericial laudo = laudoPericialService.buscarPorIdOuFalhar(laudoId);
         Exame exameExistente = buscarOuFalhar(exameId);
 
-        if (laudoOptional.isPresent()) {
-            exameExistente.setDescricao(exame.getDescricao());
-            exameExistente.setObservacao(exame.getObservacao());
-            exameExistente.setTitulo(exame.getTitulo());
-            exameExistente.setData(exame.getData());
-            return salvar(laudoOptional.get().getId(), exameExistente);
-
+        if (laudo == null) {
+            return null;
         }
-        return null;
+        exameExistente.setDescricao(exame.getDescricao());
+        exameExistente.setObservacao(exame.getObservacao());
+        exameExistente.setTitulo(exame.getTitulo());
+        exameExistente.setData(exame.getData());
+
+        atualizaExameNoLaudo(exameExistente, laudoId);
+
+        return salvar(laudo.getId(), exameExistente);
+    }
+
+    private void atualizaExameNoLaudo(Exame exame, String laudoId) {
+        LaudoPericial laudoPericial = laudoPericialService.buscarPorIdOuFalhar(laudoId);
+        if (exame != null) {
+            laudoPericial.setExame(exame);
+        }
+        laudoPericialService.atualizar(laudoId, laudoPericial);
     }
 
     private void removerExameDoLaudoById(String laudoId) {

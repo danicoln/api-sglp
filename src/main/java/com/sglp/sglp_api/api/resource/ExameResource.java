@@ -31,7 +31,7 @@ public class ExameResource {
     @GetMapping("/{exameId}")
     public ResponseEntity<ExameModel> buscarPoId(@PathVariable String laudoId,
                                         @PathVariable String exameId) {
-        final var exame = service.buscarPorId(laudoId, exameId);
+        final var exame = service.buscarOuFalhar(exameId);
 
         if (exame != null) {
             ExameModel model = mapper.toModel(exame);
