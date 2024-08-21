@@ -20,9 +20,11 @@ public class IAService {
     @Value("${spring.ai.openai.api.url}")
     private String apiUrl;
 
-    @Autowired
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
+    public IAService(RestTemplate restTemplate) {
+        this.restTemplate = restTemplate;
+    }
 
     public String processChatRequest(ChatGPTRequest request) {
         validateRequest(request);
