@@ -15,6 +15,7 @@ public class DadosPerito {
     @Id
     @EqualsAndHashCode.Include
     private String id;
+    String cpf;
     @NotBlank
     private String ccm;
     @NotBlank
@@ -23,6 +24,5 @@ public class DadosPerito {
     private String rg;
     @NotBlank
     private DadosBancarios dadosBancarios;
-
     private Endereco endereco;
 }
