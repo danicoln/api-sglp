@@ -73,7 +73,9 @@ public class QuesitoResource {
     }
 
     @PostMapping("/ia")
-    public ResponseEntity<Map<String, String>> getIAResponse(@RequestBody ChatGPTRequest request){
+    public ResponseEntity<Map<String, String>> getIAResponse(
+            @RequestBody ChatGPTRequest request, @PathVariable String laudoId) {
+        quesitoStrategy.validarObjetivo(laudoId);
         var prompt = quesitoStrategy.buildPrompt(request);
         var response = iaService.processEntityRequest(request, prompt);
         Map<String, String> responseBody = new HashMap<>();
