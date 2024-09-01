@@ -1,7 +1,7 @@
 package com.sglp.sglp_api.api.assembler;
 
 import com.sglp.sglp_api.api.dto.model.UsuarioModel;
-import com.sglp.sglp_api.domain.model.Usuario;
+import com.sglp.sglp_api.domain.model.user.Usuario;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;

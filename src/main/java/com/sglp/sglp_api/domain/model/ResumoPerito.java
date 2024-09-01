@@ -10,11 +10,9 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@EqualsAndHashCode
 @Document(collection = "resumoPerito")
 public class ResumoPerito extends AbstractEntity {
 
-    @EqualsAndHashCode.Include
     @Id
     private String id;
 }

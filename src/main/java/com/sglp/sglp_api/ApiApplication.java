@@ -2,10 +2,12 @@ package com.sglp.sglp_api;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-@EnableMongoRepositories(basePackages = "com.sglp.sglp_api.domain.repository")
+@ComponentScan(basePackages = "com.sglp.sglp_api")
 public class ApiApplication {
 
 	public static void main(String[] args) {
