@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public abstract class AbstractModel {
+public abstract class AbstractEntity {
 
     private String loginInclusao;
     private String loginAtualizacao;

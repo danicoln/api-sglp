@@ -1,17 +1,17 @@
-package com.sglp.sglp_api.api.dto.input;
+package com.sglp.sglp_api.api.dto.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class DadosPeritoInput {
+public class DadosPeritoModel {
 
     private String id;
     String cpf;
     private String ccm;
     private String pis;
     private String rg;
-    private BancoInput banco;
-    private EnderecoInput endereco;
+    private BancoModel banco;
+    private EnderecoModel endereco;
 }

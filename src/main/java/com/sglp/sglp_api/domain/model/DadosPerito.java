@@ -2,19 +2,23 @@ package com.sglp.sglp_api.domain.model;
 
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
+import org.hibernate.validator.constraints.br.CPF;
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
-@Document
-public class DadosPerito {
+@Getter
+@Setter
+@Document(collection = "dados_perito")
+public class DadosPerito extends AbstractEntity {
 
     @Id
     @EqualsAndHashCode.Include
     private String id;
+    @CPF
+    String cpf;
     @NotBlank
     private String ccm;
     @NotBlank
@@ -22,7 +26,8 @@ public class DadosPerito {
     @NotBlank
     private String rg;
     @NotBlank
-    private DadosBancarios dadosBancarios;
-
+    @DBRef
+    private Banco banco;
+    @DBRef
     private Endereco endereco;
 }
