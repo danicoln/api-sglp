@@ -1,11 +1,11 @@
-package com.sglp.sglp_api.api.dto.input;
+package com.sglp.sglp_api.api.dto.model;
 
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
-public class EnderecoInput {
+public class EnderecoModel {
 
     private String id;
     private String cep;
