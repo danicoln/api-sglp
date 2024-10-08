@@ -8,15 +8,17 @@ import org.springframework.data.mongodb.core.mapping.Document;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@Document(collection = "bancos")
-public class Banco {
+@Document
+public class DadosBancarios {
 
     private String id;
-    private String nome;
+
+    private String nomeBanco;
     @NotBlank
     private String agencia;
     private String digitoAgencia;
+
     @NotBlank
-    private String conta;
-    private String digitoConta;
+    private String contaCorrente;
+    private String digitoContaCorrente;
 }

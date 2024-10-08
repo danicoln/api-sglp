@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @Document(collection = "exames")
-public class Exame extends AbstractEntity {
+public class Exame extends AbstractModel {
 
     @Id
     @EqualsAndHashCode.Include

@@ -3,16 +3,16 @@
 </header>
 
 <p>
-  O Sistema de Gerenciamento de Laudo Pericial é uma aplicação desenvolvida para auxiliar usuarios na elaboração de laudos periciais com o uso de Inteligência Artificial. Este sistema oferece uma plataforma completa para gerenciar informações relacionadas a laudos periciais, processos, usuarios e partes envolvidas.
+  O Sistema de Gerenciamento de Laudo Pericial é uma aplicação desenvolvida para auxiliar peritos na elaboração de laudos periciais com o uso de Inteligência Artificial. Este sistema oferece uma plataforma completa para gerenciar informações relacionadas a laudos periciais, processos, peritos e partes envolvidas.
 </p>
 <h2>
   Funcionalidades Principais  
 </h2>
 
 <ul>
-  <li>Cadastro e gestão de usuarios, processos, laudos periciais e partes envolvidas.
+  <li>Cadastro e gestão de peritos, processos, laudos periciais e partes envolvidas.
 </li>
-  <li>Associação de usuarios a processos e nomeações específicas.
+  <li>Associação de peritos a processos e nomeações específicas.
 </li>
   <li>Registro detalhado de informações relevantes para o laudo pericial, incluindo objetivos, objeto do laudo, metodologia aplicada, histórico, quesitos, conclusões e datas.
 </li>

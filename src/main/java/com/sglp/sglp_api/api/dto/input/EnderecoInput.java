@@ -7,8 +7,6 @@ import lombok.Setter;
 @Setter
 public class EnderecoInput {
 
-    private String id;
-    private String cep;
     private String logradouro;
     private String numero;
     private String bairro;
