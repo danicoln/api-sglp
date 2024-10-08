@@ -1,7 +1,7 @@
 package com.sglp.sglp_api.domain.service;
 
 import com.sglp.sglp_api.domain.exception.UsuarioNaoEncontradoException;
-import com.sglp.sglp_api.domain.model.Usuario;
+import com.sglp.sglp_api.domain.model.user.Usuario;
 import com.sglp.sglp_api.domain.repository.UsuarioRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.BeanUtils;

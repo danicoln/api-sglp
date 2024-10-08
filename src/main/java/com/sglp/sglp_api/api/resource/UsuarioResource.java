@@ -3,7 +3,7 @@ package com.sglp.sglp_api.api.resource;
 import com.sglp.sglp_api.api.dto.input.UsuarioInput;
 import com.sglp.sglp_api.api.dto.model.UsuarioModel;
 import com.sglp.sglp_api.api.mapper.UsuarioMapper;
-import com.sglp.sglp_api.domain.model.Usuario;
+import com.sglp.sglp_api.domain.model.user.Usuario;
 import com.sglp.sglp_api.domain.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -61,7 +61,7 @@ public class UsuarioResource {
             return ResponseEntity.notFound().build();
         }
         Usuario usuario = usuarioOptional.get();
-        usuario.setAtivo(true);
+//        usuario.setAtivo(true);
         usuarioService.atualizar(id, usuario);
 
         return ResponseEntity.noContent().build();
@@ -75,7 +75,7 @@ public class UsuarioResource {
             return ResponseEntity.notFound().build();
         }
         Usuario usuario = usuarioOptional.get();
-        usuario.setAtivo(false);
+//        usuario.setAtivo(false);
         usuarioService.atualizar(id, usuario);
 
         return ResponseEntity.noContent().build();
