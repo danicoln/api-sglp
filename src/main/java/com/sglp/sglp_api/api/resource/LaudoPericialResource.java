@@ -12,6 +12,7 @@ import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -31,11 +32,13 @@ public class LaudoPericialResource {
 
 
     @GetMapping
+    @PreAuthorize("hasAuthority('ROLE_LISTAR_LAUDOS')")
     public List<LaudoPericialModel> listar(@RequestParam(value = "ativo", defaultValue = "true") boolean ativo) {
         return mapper.toModelList(laudoPericialService.listarAtivos(ativo));
     }
 
     @GetMapping("/{laudoId}")
+    @PreAuthorize("hasAuthority('ROLE_PESQUISAR_LAUDO')")
     public ResponseEntity<LaudoPericialModel> buscar(@PathVariable String laudoId) {
         Optional<LaudoPericial> laudoPericial = laudoPericialService.buscar(laudoId);
 
@@ -47,6 +50,7 @@ public class LaudoPericialResource {
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_CADASTRAR_LAUDO')")
     public ResponseEntity<LaudoPericialModel> criar(@RequestBody @Valid LaudoPericialInput input) {
         LaudoPericial laudo = mapper.toEntity(input);
         LaudoPericialModel model = mapper.toModel(laudoPericialService.salvar(laudo));
@@ -54,6 +58,7 @@ public class LaudoPericialResource {
     }
 
     @PutMapping("/{laudoId}")
+    @PreAuthorize("hasAuthority('ROLE_ATUALIZAR_LAUDO')")
     public ResponseEntity<LaudoPericialModel> atualizar(@PathVariable String laudoId,
                                                         @RequestBody LaudoPericialInput input) {
         LaudoPericial laudo = mapper.toEntity(input);
@@ -64,6 +69,7 @@ public class LaudoPericialResource {
     }
 
     @PutMapping("/{laudoId}/ativar")
+    @PreAuthorize("hasAuthority('ROLE_ATIVAR_LAUDO')")
     public ResponseEntity<Void> ativar(@PathVariable String laudoId) {
         Optional<LaudoPericial> laudoOpt = laudoPericialService.buscar(laudoId);
 
@@ -77,6 +83,7 @@ public class LaudoPericialResource {
     }
 
     @PutMapping("/{laudoId}/desativar")
+    @PreAuthorize("hasAuthority('ROLE_DESATIVAR_LAUDO')")
     public ResponseEntity<Void> desativar(@PathVariable String laudoId) {
         Optional<LaudoPericial> laudoOpt = laudoPericialService.buscar(laudoId);
 
@@ -90,6 +97,7 @@ public class LaudoPericialResource {
     }
 
     @PostMapping("/ia")
+    @PreAuthorize("hasAuthority('ROLE_IA')")
     public ResponseEntity<Map<String, String>> getIAResponse(@RequestBody ChatGPTRequest request){
         var prompt = strategy.buildPrompt(request);
         var response = iaService.processEntityRequest(request, prompt);
