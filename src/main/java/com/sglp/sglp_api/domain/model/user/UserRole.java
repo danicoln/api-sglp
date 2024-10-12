@@ -2,7 +2,7 @@ package com.sglp.sglp_api.domain.model.user;
 
 public enum UserRole {
 
-    ADMIN("amin"),
+    ADMIN("admin"),
     USER("user");
 
     private String role;

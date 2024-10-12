@@ -1,6 +1,7 @@
 package com.sglp.sglp_api.core.security;
 
 import com.sglp.sglp_api.domain.repository.UsuarioRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -9,10 +10,11 @@ import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 
+@AllArgsConstructor
 @Component
 public class CustomUserDetailsService implements UserDetailsService {
 
-    private UsuarioRepository repository;
+    private final UsuarioRepository repository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

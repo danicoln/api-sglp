@@ -16,23 +16,23 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 import java.util.List;
 
-//@Entity(name = "usuarios")
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-//@Table(name = "usuarios")
+@Data
 @Document(collection = "usuarios")
 public class Usuario extends AbstractEntity implements UserDetails {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.UUID)
     private String id;
     @Email
     private String login;
     private String password;
     private UserRole role;
+    private String nome;
 
-    public Usuario(String login, String password, UserRole role) {
+    public Usuario(String nome, String login, String password, UserRole role) {
+        this.nome = nome;
         this.login = login;
         this.password = password;
         this.role = role;
