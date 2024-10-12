@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
+
 @RestController
 @RequestMapping("/auth")
 @RequiredArgsConstructor
@@ -51,7 +53,7 @@ public class AuthenticationResource {
         UserDetails user = repository.findByLogin(input.login());
         if (user == null) {
             String encryptedPassword = new BCryptPasswordEncoder().encode(input.password());
-            Usuario newUser = new Usuario( input.nome(), input.login(), encryptedPassword, input.role());
+            Usuario newUser = new Usuario( input.nome(), input.login(), encryptedPassword, input.role(), new ArrayList<>());
 
             this.repository.save(newUser);
 

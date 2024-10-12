@@ -30,12 +30,14 @@ public class Usuario extends AbstractEntity implements UserDetails {
     private String password;
     private UserRole role;
     private String nome;
+    private List<String> permissaoId;
 
-    public Usuario(String nome, String login, String password, UserRole role) {
+    public Usuario(String nome, String login, String password, UserRole role, List<String> permissaoId) {
         this.nome = nome;
         this.login = login;
         this.password = password;
         this.role = role;
+        this.permissaoId = permissaoId;
     }
 
     @Override

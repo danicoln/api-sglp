@@ -1,10 +1,7 @@
 package com.sglp.sglp_api.api.dto.input;
 
-import com.sglp.sglp_api.domain.model.DadosPerito;
-import jakarta.validation.constraints.Email;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 
 import java.util.List;
 
@@ -18,5 +15,6 @@ public class UsuarioInput {
     private String senha;
     private DadosPeritoInput dadosPerito;
     private boolean ativo;
+    private List<String> permissaoId;
 
 }
