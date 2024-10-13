@@ -16,7 +16,7 @@ import java.time.ZoneOffset;
 public class TokenService {
 
     public static final String ERRO_AO_GERAR_O_TOKEN = "Erro enquanto gerava o token";
-    @Value("${api.security.token.secret")
+    @Value("${api.security.token.secret}")
     private String secret;
 
     public String generateToken(Usuario user) {
@@ -42,7 +42,7 @@ public class TokenService {
                     .verify(token)
                     .getSubject();
         }catch (JWTVerificationException ex){
-            return "";
+            return null;
         }
     }
 

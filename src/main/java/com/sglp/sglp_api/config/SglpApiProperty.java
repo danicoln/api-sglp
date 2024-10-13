@@ -1,29 +1,21 @@
 package com.sglp.sglp_api.config;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 
 @Component
+@Getter
+@Setter
 @ConfigurationProperties("sglp")
 public class SglpApiProperty {
 
-    private String origenPermitida = "http://localhost:4200";
+    private String originPermitida = "http://localhost:4200";
 
     private final Seguranca seguranca = new Seguranca();
-
-    public Seguranca getSeguranca() {
-        return seguranca;
-    }
-
-    public String getOrigenPermitida() {
-        return origenPermitida;
-    }
-
-    public void setOrigenPermitida(String origenPermitida) {
-        this.origenPermitida = origenPermitida;
-    }
 
     public static class Seguranca {
 
