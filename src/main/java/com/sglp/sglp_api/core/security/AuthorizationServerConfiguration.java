@@ -46,7 +46,6 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class AuthorizationServerConfiguration {
 
-
     private final PasswordEncoder passwordEncoder;
 
     private final SglpApiProperty property;
@@ -64,8 +63,8 @@ public class AuthorizationServerConfiguration {
                 .scope("read")
                 .scope("write")
                 .tokenSettings(TokenSettings.builder()
-                        .accessTokenTimeToLive(Duration.ofMinutes(30))
-                        .refreshTokenTimeToLive(Duration.ofDays(24))
+                        .accessTokenTimeToLive(Duration.ofMinutes(3))
+                        .refreshTokenTimeToLive(Duration.ofMinutes(4))
                         .build())
                 .clientSettings(ClientSettings.builder()
                         .requireAuthorizationConsent(true)
@@ -89,7 +88,7 @@ public class AuthorizationServerConfiguration {
     @Bean
     public OAuth2TokenCustomizer<JwtEncodingContext> jwtBuildCustomizer() {
         return context -> {
-            UsernamePasswordAuthenticationToken authenticationToken = (UsernamePasswordAuthenticationToken) context.getPrincipal();
+            UsernamePasswordAuthenticationToken authenticationToken = context.getPrincipal();
             Usuario usuarioSistema = (Usuario) authenticationToken.getPrincipal();
 
             Set<String> authorities = new HashSet<>();
