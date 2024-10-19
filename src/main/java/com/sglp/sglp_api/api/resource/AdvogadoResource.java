@@ -23,26 +23,29 @@ public class AdvogadoResource {
     private final AdvogadoMapper mapper;
 
     @GetMapping
-    @PreAuthorize("hasAuthority('ROLE_LISTAR')")
+    @PreAuthorize("hasAuthority('ROLE_ADVOGADO_CONSULTAR')")
     public ResponseEntity<List<AdvogadoModel>> listar() {
         List<Advogado> advogados = service.listar();
         return ResponseEntity.ok(mapper.toModelList(advogados));
     }
 
     @GetMapping("/{advogadoId}")
+    @PreAuthorize("hasAuthority('ROLE_ADVOGADO_CONSULTAR')")
     public ResponseEntity<AdvogadoModel> buscarPorId(@PathVariable String advogadoId) {
         Advogado advogado = service.buscarPorIdOuFalhar(advogadoId);
         return ResponseEntity.ok(mapper.toModel(advogado));
     }
 
     @PostMapping
+    @PreAuthorize("hasAuthority('ROLE_ADVOGADO_INSERIR')")
     public ResponseEntity<AdvogadoModel> salvar(@RequestBody AdvogadoInput input) {
         Advogado advogado = mapper.toEntity(input);
-        AdvogadoModel model = mapper.toModel(service.salvar(advogado));
+        AdvogadoModel model = mapper.toModel(service.inserir(advogado));
         return ResponseEntity.status(HttpStatus.CREATED).body(model);
     }
 
     @PutMapping("/{advogadoId}")
+    @PreAuthorize("hasAuthority('ROLE_ADVOGADO_INSERIR')")
     public ResponseEntity<AdvogadoModel> atualizar(@PathVariable String advogadoId,
                                                    @RequestBody AdvogadoInput input) {
         Advogado advogadoAtual = mapper.toEntity(input);
@@ -51,6 +54,7 @@ public class AdvogadoResource {
     }
 
     @DeleteMapping("/{advogadoId}")
+    @PreAuthorize("hasAuthority('ROLE_ADVOGADO_REMOVER')")
     public ResponseEntity<AdvogadoModel> remover(@PathVariable String advogadoId) {
         try {
             service.remover(advogadoId);

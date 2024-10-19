@@ -1,12 +1,12 @@
 package com.sglp.sglp_api.domain.model.user;
 
 import com.sglp.sglp_api.domain.model.AbstractEntity;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import com.sglp.sglp_api.domain.model.Perfil;
 import jakarta.validation.constraints.Email;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
@@ -28,27 +29,23 @@ public class Usuario extends AbstractEntity implements UserDetails {
     @Email
     private String login;
     private String password;
-    private UserRole role;
     private String nome;
-    private List<String> permissaoId;
+    private Boolean ativo;
+    private Perfil perfil;
 
-    public Usuario(String nome, String login, String password, UserRole role, List<String> permissaoId) {
+    public Usuario(String nome, String login, String password, Perfil perfil) {
         this.nome = nome;
         this.login = login;
         this.password = password;
-        this.role = role;
-        this.permissaoId = permissaoId;
+        this.perfil = perfil;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
 
-        if(role == UserRole.ADMIN) {
-            return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"),
-                    new SimpleGrantedAuthority("ROLE_USER"));
-        } else {
-            return List.of(new SimpleGrantedAuthority("ROLE_USER"));
-        }
+        return perfil.getPermissoes().stream()
+                .map(permissao -> new SimpleGrantedAuthority(permissao.getDescricao()))
+                .collect(Collectors.toSet());
     }
 
     @Override

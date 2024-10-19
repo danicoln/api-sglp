@@ -24,7 +24,7 @@ public class UsuarioResource {
     @PostMapping
     public ResponseEntity<UsuarioModel> criar(@RequestBody UsuarioInput input) {
         Usuario usuario = mapper.toEntity(input);
-        UsuarioModel model = mapper.toModel(usuarioService.criar(usuario));
+        UsuarioModel model = mapper.toModel(usuarioService.inserir(usuario));
         return ResponseEntity.status(HttpStatus.CREATED).body(model);
     }
 

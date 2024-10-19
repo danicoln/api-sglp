@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UsuarioRepository extends MongoRepository<Usuario, String> {
+public interface UsuarioRepository extends GenericRepository<Usuario, String> {
 
     Usuario findByLogin(String login);
 }

@@ -1,23 +1,23 @@
 package com.sglp.sglp_api.domain.model;
 
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Data
-@NoArgsConstructor
+import java.util.List;
+
+@EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-@Document(collection = "advogados")
-public class Advogado extends AbstractEntity {
+@NoArgsConstructor
+@Data
+@Document(collection = "perfis")
+public class Perfil extends AbstractEntity {
 
     @Id
-    @EqualsAndHashCode.Include
     private String id;
     private String nome;
-    private String email;
-    private String telefone;
+    private List<Permissao> permissoes;
 }

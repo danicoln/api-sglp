@@ -1,46 +1,62 @@
 package com.sglp.sglp_api.domain.service;
 
-import com.sglp.sglp_api.domain.exception.UsuarioNaoEncontradoException;
+import com.sglp.sglp_api.core.security.AuthenticatedUserService;
+import com.sglp.sglp_api.domain.exception.NegocioException;
+import com.sglp.sglp_api.domain.model.Perfil;
 import com.sglp.sglp_api.domain.model.user.Usuario;
 import com.sglp.sglp_api.domain.repository.UsuarioRepository;
-import lombok.AllArgsConstructor;
-import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
-public class UsuarioService {
+public class UsuarioService extends GenericService<Usuario, String> {
 
     public static final String USUARIO_NAO_ENCONTRADO = "Usuário com o código %s não encontrado";
+    public static final String PERFIL_NAO_ENCONTRADO = "Perfil não encontrado";
 
-    private final UsuarioRepository usuarioRepository;
+    private final UsuarioRepository repository;
+    private final PerfilService perfilService;
 
-    public List<Usuario> listar() {
-        return usuarioRepository.findAll();
+    protected UsuarioService(UsuarioRepository repository,
+                             AuthenticatedUserService usuarioAutenticadoService,
+                             PerfilService perfilService
+    ) {
+        super(repository, usuarioAutenticadoService);
+        this.repository = repository;
+        this.perfilService = perfilService;
     }
 
-    @Transactional
-    public Usuario criar(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    @Override
+    public void validateSave(Usuario usuario) {
+        if(usuario == null) {
+            throw new NegocioException(USUARIO_NAO_ENCONTRADO);
+        }
     }
 
-    public Optional<Usuario> buscarPorId(String id) {
-        return usuarioRepository.findById(id);
+    @Override
+    public void validateUpdate(Usuario usuario) {
+        Usuario usuarioExistente = repository.findByLogin(usuario.getLogin());
+        if(usuarioExistente == null) {
+            throw new NegocioException(PERFIL_NAO_ENCONTRADO);
+        }
+        if (usuario.getPerfil() != null) {
+            Optional<Perfil> perfilOpt = perfilService.buscarPorId(usuario.getPerfil().getId());
+            if (perfilOpt.isEmpty()) {
+                throw new NegocioException(PERFIL_NAO_ENCONTRADO);
+            }
+
+            usuario.setPerfil(perfilOpt.get());
+        }
     }
 
-    @Transactional
-    public Usuario atualizar(String id, Usuario usuario) {
-        Usuario usuarioExistente = buscarPorIdOuFalhar(id);
-        BeanUtils.copyProperties(usuario, usuarioExistente, "id");
-        return usuarioRepository.save(usuarioExistente);
-    }
-
-    private Usuario buscarPorIdOuFalhar(String id) {
-        return usuarioRepository.findById(id)
-                .orElseThrow(() -> new UsuarioNaoEncontradoException(USUARIO_NAO_ENCONTRADO, id));
+    public void validateUser(Usuario user, String login) {
+        if (user != null) {
+            user.setLoginInclusao(login);
+            user.setDataInclusao(LocalDateTime.now());
+        }
+        inserir(user);
     }
 }
