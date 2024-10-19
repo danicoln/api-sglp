@@ -1,6 +1,6 @@
 package com.sglp.sglp_api.api.dto.input;
 
-import com.sglp.sglp_api.domain.model.user.UserRole;
+import com.sglp.sglp_api.domain.model.Perfil;
 
-public record RegisterInput(String nome, String login, String password, UserRole role) {
+public record RegisterInput(String nome, String login, String password, Perfil perfil) {
 }

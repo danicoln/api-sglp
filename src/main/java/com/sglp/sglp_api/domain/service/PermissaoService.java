@@ -1,7 +1,5 @@
 package com.sglp.sglp_api.domain.service;
 
-import com.sglp.sglp_api.domain.exception.EntidadeNaoEncontradaException;
-import com.sglp.sglp_api.domain.model.Advogado;
 import com.sglp.sglp_api.domain.model.Permissao;
 import com.sglp.sglp_api.domain.repository.PermissaoRepository;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -43,5 +42,9 @@ public class PermissaoService {
 
     private Permissao buscarPorIdOuFalhar(String permissaoId) {
         return repository.findById(permissaoId).orElseThrow(() -> new RuntimeException(PERMISSAO_NAO_ENCONTRADA));
+    }
+
+    public Optional<Permissao> buscarPorId(String permissaoId) {
+        return repository.findById(permissaoId);
     }
 }
