@@ -48,6 +48,8 @@ public class UsuarioResource {
     public ResponseEntity<UsuarioModel> atualizar(@PathVariable String id,
                                                   @RequestBody UsuarioInput input) {
         Usuario usuario = mapper.toEntity(input);
+        String validatedPassword = usuarioService.validatePassword(usuario);
+        usuario.setPassword(validatedPassword);
         Usuario usuarioAtualizado = usuarioService.atualizar(id, usuario);
         UsuarioModel model = mapper.toModel(usuarioAtualizado);
         return ResponseEntity.ok(model);

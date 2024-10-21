@@ -13,6 +13,7 @@ public class UsuarioModel {
     private String nome;
     private String login;
     private boolean ativo;
+    private String password;
     private PerfilModel perfil;
 
     private String loginInclusao;
