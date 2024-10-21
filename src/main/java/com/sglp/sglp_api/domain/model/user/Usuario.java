@@ -14,7 +14,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
-import java.util.List;
+import java.util.Collections;
 import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
@@ -42,7 +42,9 @@ public class Usuario extends AbstractEntity implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-
+        if (perfil == null || perfil.getPermissoes() == null) {
+            return Collections.emptyList();
+        }
         return perfil.getPermissoes().stream()
                 .map(permissao -> new SimpleGrantedAuthority(permissao.getDescricao()))
                 .collect(Collectors.toSet());
@@ -71,5 +73,9 @@ public class Usuario extends AbstractEntity implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public Boolean isAtivo() {
+        return ativo;
     }
 }

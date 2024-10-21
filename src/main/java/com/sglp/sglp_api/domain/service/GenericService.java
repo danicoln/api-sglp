@@ -3,7 +3,7 @@ package com.sglp.sglp_api.domain.service;
 import com.sglp.sglp_api.core.security.AuthenticatedUserService;
 import com.sglp.sglp_api.domain.model.AbstractEntity;
 import com.sglp.sglp_api.domain.repository.GenericRepository;
-import org.springframework.beans.BeanUtils;
+import com.sglp.sglp_api.utils.PropertyUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -46,10 +46,10 @@ public abstract class GenericService<T extends AbstractEntity, ID> {
     public T atualizar(ID id, T entity) {
         String login = usuarioAutenticadoService.getAuthenticatedUserLogin();
         T existingEntity = buscarPorIdOuFalhar(id);
-        BeanUtils.copyProperties(entity, existingEntity, "id", "loginInclusao", "dataInclusao");
+        PropertyUtils.copyNonNullProperties(entity,existingEntity,"id", "ativo", "loginInclusao", "dataInclusao");
+        validateUpdate(existingEntity);
         existingEntity.setLoginAtualizacao(login);
         existingEntity.setDataAtualizacao(LocalDateTime.now());
-        validateUpdate(existingEntity);
         return repository.save(existingEntity);
     }
 
@@ -66,7 +66,6 @@ public abstract class GenericService<T extends AbstractEntity, ID> {
     public Optional<T> buscarPorId(ID id) {
         return repository.findById(id);
     }
-
 
     public T buscarPorIdOuFalhar(ID id) {
         return repository.findById(id)

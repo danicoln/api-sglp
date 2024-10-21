@@ -1,14 +1,16 @@
 package com.sglp.sglp_api.domain.service;
 
+import com.sglp.sglp_api.api.mapper.UsuarioMapper;
 import com.sglp.sglp_api.core.security.AuthenticatedUserService;
+import com.sglp.sglp_api.core.security.TokenService;
 import com.sglp.sglp_api.domain.exception.NegocioException;
 import com.sglp.sglp_api.domain.model.Perfil;
 import com.sglp.sglp_api.domain.model.user.Usuario;
 import com.sglp.sglp_api.domain.repository.UsuarioRepository;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -19,44 +21,58 @@ public class UsuarioService extends GenericService<Usuario, String> {
 
     private final UsuarioRepository repository;
     private final PerfilService perfilService;
+    private final TokenService tokenService;
 
     protected UsuarioService(UsuarioRepository repository,
                              AuthenticatedUserService usuarioAutenticadoService,
-                             PerfilService perfilService
+                             PerfilService perfilService, TokenService tokenService
     ) {
         super(repository, usuarioAutenticadoService);
         this.repository = repository;
         this.perfilService = perfilService;
+        this.tokenService = tokenService;
     }
 
     @Override
     public void validateSave(Usuario usuario) {
-        if(usuario == null) {
+        if (usuario == null) {
             throw new NegocioException(USUARIO_NAO_ENCONTRADO);
         }
     }
 
     @Override
     public void validateUpdate(Usuario usuario) {
-        Usuario usuarioExistente = repository.findByLogin(usuario.getLogin());
-        if(usuarioExistente == null) {
-            throw new NegocioException(PERFIL_NAO_ENCONTRADO);
-        }
+
         if (usuario.getPerfil() != null) {
             Optional<Perfil> perfilOpt = perfilService.buscarPorId(usuario.getPerfil().getId());
             if (perfilOpt.isEmpty()) {
                 throw new NegocioException(PERFIL_NAO_ENCONTRADO);
             }
-
             usuario.setPerfil(perfilOpt.get());
+        }
+        if(usuario.getAtivo() != null) {
+            usuario.setAtivo(usuario.isAtivo());
         }
     }
 
-    public void validateUser(Usuario user, String login) {
-        if (user != null) {
-            user.setLoginInclusao(login);
-            user.setDataInclusao(LocalDateTime.now());
+    public String validatePassword(Usuario usuario) {
+        if (usuario != null) {
+            Usuario newUser = getNovoUsuario(usuario);
+            return tokenService.generateToken(newUser);
         }
-        inserir(user);
+        return null;
+    }
+
+    private Usuario getNovoUsuario(Usuario usuario) {
+        String password = encryptPassword(usuario.getPassword());
+        return new Usuario(usuario.getNome(), usuario.getLogin(),
+                password, usuario.getPerfil());
+    }
+
+    private String encryptPassword(String password) {
+        if (password != null) {
+            return new BCryptPasswordEncoder().encode(password);
+        }
+        return null;
     }
 }

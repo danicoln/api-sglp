@@ -53,8 +53,6 @@ public class AuthenticationResource {
             String encryptedPassword = new BCryptPasswordEncoder().encode(input.password());
             Usuario newUser = new Usuario(input.nome(), input.login(), encryptedPassword, input.perfil());
 
-            usuarioService.validateUser(newUser, newUser.getLogin());
-
             String token = tokenService.generateToken(newUser);
             return ResponseEntity.ok(new ResponseDto(newUser.getLogin(), token));
         }
