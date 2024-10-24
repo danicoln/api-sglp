@@ -8,6 +8,7 @@ import com.sglp.sglp_api.domain.service.UsuarioService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,6 +29,7 @@ public class UsuarioResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(model);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<UsuarioModel> listar() {
         return mapper.toModelList(usuarioService.listar());
@@ -48,8 +50,11 @@ public class UsuarioResource {
     public ResponseEntity<UsuarioModel> atualizar(@PathVariable String id,
                                                   @RequestBody UsuarioInput input) {
         Usuario usuario = mapper.toEntity(input);
-        String validatedPassword = usuarioService.validatePassword(usuario);
-        usuario.setPassword(validatedPassword);
+        if(input.getPassword() != null && !input.getPassword().isEmpty()) {
+            String validatedPassword = usuarioService.validatePassword(usuario);
+            usuario.setPassword(validatedPassword);
+        }
+
         Usuario usuarioAtualizado = usuarioService.atualizar(id, usuario);
         UsuarioModel model = mapper.toModel(usuarioAtualizado);
         return ResponseEntity.ok(model);

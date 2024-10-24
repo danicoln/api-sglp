@@ -1,25 +1,21 @@
 package com.sglp.sglp_api.domain.model.user;
 
 import com.sglp.sglp_api.domain.model.AbstractEntity;
-import com.sglp.sglp_api.domain.model.Perfil;
+import com.sglp.sglp_api.domain.model.Role;
 import jakarta.validation.constraints.Email;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
-import java.util.stream.Collectors;
 
 @EqualsAndHashCode(callSuper = true)
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 @Data
 @Document(collection = "usuarios")
 public class Usuario extends AbstractEntity implements UserDetails {
@@ -31,23 +27,21 @@ public class Usuario extends AbstractEntity implements UserDetails {
     private String password;
     private String nome;
     private Boolean ativo;
-    private Perfil perfil;
+    private Role role;
 
-    public Usuario(String nome, String login, String password, Perfil perfil) {
+    public Usuario(String nome, String login, String password, Role role) {
         this.nome = nome;
         this.login = login;
         this.password = password;
-        this.perfil = perfil;
+        this.role = role;
     }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        if (perfil == null || perfil.getPermissoes() == null) {
+        if (role == null || role.getPermissoes() == null) {
             return Collections.emptyList();
         }
-        return perfil.getPermissoes().stream()
-                .map(permissao -> new SimpleGrantedAuthority(permissao.getDescricao()))
-                .collect(Collectors.toSet());
+        return role.getAuthorities();
     }
 
     @Override

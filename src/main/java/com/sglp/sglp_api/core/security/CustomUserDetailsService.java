@@ -24,13 +24,20 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserDetails user = repository.findByLogin(username);
+        System.out.println("Usuário autenticado: " + username);
+        System.out.println("Permissões: " + user.getAuthorities());
         return new User(user.getUsername(), user.getPassword(), getPermissoes(user));
     }
 
     private Collection<? extends GrantedAuthority> getPermissoes(UserDetails user) {
         Set<SimpleGrantedAuthority> authorities = new HashSet<>();
-        user.getAuthorities().forEach(p -> authorities.add(new SimpleGrantedAuthority(
-                p.getAuthority())));
+        user.getAuthorities().forEach(p -> {
+            String roleName = p.getAuthority();
+            if (!roleName.startsWith("ROLE_")) {
+                roleName = "ROLE_" + roleName;
+            }
+            authorities.add(new SimpleGrantedAuthority(roleName));
+        });
         return authorities;
     }
 }

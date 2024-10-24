@@ -33,10 +33,13 @@ public class SecurityFilter extends OncePerRequestFilter {
 
             if(login!= null && !login.isEmpty()){
                 UserDetails user = usuarioRepository.findByLogin(login);
-                //criação de coleção de roles de usuários
-                var authorities = Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
-                var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
-                SecurityContextHolder.getContext().setAuthentication(authentication);
+
+                if(user != null) {
+                    // Usando as authorities (roles) do próprio UserDetails
+                    var authorities = user.getAuthorities();
+                    var authentication = new UsernamePasswordAuthenticationToken(user, null, authorities);
+                    SecurityContextHolder.getContext().setAuthentication(authentication);
+                }
             }
         }
         filterChain.doFilter(request, response);

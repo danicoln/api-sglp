@@ -34,6 +34,7 @@ public abstract class GenericService<T extends AbstractEntity, ID> {
         if (entity == null) {
             throw new IllegalArgumentException("Entidade nula, tente novamente");
         }
+        entity.setDataInclusao(LocalDateTime.now());
     }
 
     public void validateUpdate(T entity) {
