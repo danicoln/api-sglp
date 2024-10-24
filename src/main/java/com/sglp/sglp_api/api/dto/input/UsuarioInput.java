@@ -1,5 +1,6 @@
 package com.sglp.sglp_api.api.dto.input;
 
+import com.sglp.sglp_api.domain.model.Role;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,5 +13,5 @@ public class UsuarioInput {
     private String login;
     private String password;
     private boolean ativo;
-    private PerfilInput perfil;
+    private Role role;
 }
