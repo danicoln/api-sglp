@@ -29,7 +29,6 @@ public class UsuarioResource {
         return ResponseEntity.status(HttpStatus.CREATED).body(model);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<UsuarioModel> listar() {
         return mapper.toModelList(usuarioService.listar());

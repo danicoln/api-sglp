@@ -1,10 +1,10 @@
 package com.sglp.sglp_api.core.security;
 
+import com.sglp.sglp_api.core.security.filter.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -17,7 +17,6 @@ import static com.sglp.sglp_api.domain.model.Role.MANAGER;
 @Configuration
 @EnableWebSecurity
 @Profile("oauth-security")
-@EnableGlobalMethodSecurity(prePostEnabled = true)
 @RequiredArgsConstructor
 public class SecurityRolesAndPermissionsConfig {
 
@@ -26,24 +25,27 @@ public class SecurityRolesAndPermissionsConfig {
     public static final String API_USUARIOS = "/api/usuarios";
     public static final String API = "/api/**";
 
-    private final SecurityFilter securityFilter;
+    private final JwtAuthenticationFilter jwtAuthenticationFilter;
+    private final CustomUserDetailsService userDetailsService;
 
     @Bean
     public SecurityFilterChain securityRoleFilterChain(HttpSecurity http) throws Exception {
         return http
-                .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-                )
                 .authorizeHttpRequests(authorize ->
                             authorize
                                     .requestMatchers(
                                             API_NOMEACOES,
-                                            API_ADVOGADOS //... qualquer outro endpoint que n seja usuarios
-                                    ).hasRole(MANAGER.name())
-                                    .requestMatchers(API).hasRole(ADMIN.name())
+                                            API_ADVOGADOS
+                                    ).hasAuthority(MANAGER.name())
+                                    .requestMatchers(
+                                            API
+                                    ).hasAuthority(ADMIN.name())
+
                                     .anyRequest().authenticated()
-                )
-                .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
+                ).userDetailsService(userDetailsService)
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
 }
